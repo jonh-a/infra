@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bird-api
+  labels:
+    app: bird-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bird-api
+  template:
+    metadata:
+      labels:
+        app: bird-api
+    spec:
+      containers:
+      - name: bird-api
+        image: laundrybyte/bird-api:latest
