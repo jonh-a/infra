@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ${NAME}
+  labels:
+    app: ${NAME}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ${NAME}
+  template:
+    metadata:
+      labels:
+        app: ${NAME}
+    spec:
+      containers:
+      - name: ${NAME}
+        image: laundrybyte/${NAME}:latest
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ${NAME}-service
+spec:
+  type: NodePort
+  selector:
+    app: ${NAME}
+  ports:
+  - protocol: TCP
+    port: ${PORT}
+    nodePort: ${PORT}
+    targetPort: ${TARGET_PORT}

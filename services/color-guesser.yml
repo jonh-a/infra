@@ -17,3 +17,19 @@ spec:
       containers:
       - name: color-guesser
         image: laundrybyte/color-guesser:latest
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: color-guesser-service
+spec:
+  type: NodePort
+  selector:
+    app: color-guesser
+  ports:
+  - protocol: TCP
+    port: 30001
+    nodePort: 30001
+    targetPort: 80
