@@ -1,33 +1,33 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: age-gender-nationality-ify
+  name: agn
   labels:
-    app: age-gender-nationality-ify
+    app: agn
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: age-gender-nationality-ify
+      app: agn
   template:
     metadata:
       labels:
-        app: age-gender-nationality-ify
+        app: agn
     spec:
       containers:
-      - name: age-gender-nationality-ify
-        image: laundrybyte/age-gender-nationality-ify:latest
+      - name: agn
+        image: laundrybyte/agn:latest
 
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: age-gender-nationality-ify-service
+  name: agn-service
 spec:
   type: NodePort
   selector:
-    app: age-gender-nationality-ify
+    app: agn
   ports:
   - protocol: TCP
     port: 30003

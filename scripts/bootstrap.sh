@@ -46,8 +46,20 @@ generate_self_signed_certificate() {
   openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/example.key -out /etc/nginx/ssl/example.crt
 }
 
+start_services() {
+  git clone https://github.com/jonh-a/infra.git
+
+  for f in $(ls infra/services); do
+    kc apply -f infra/services/$f
+  done
+}
+
 install_deps
 install_zsh
 install_k8s
 install_postgres
 update_zshrc
+
+start_services
+generate_certificate
+enable_nginx
