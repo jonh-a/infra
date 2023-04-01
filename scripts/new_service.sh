@@ -32,7 +32,10 @@ $(<$DIR/../files/service.template.yml)
   " > "$DIR/../services/$NAME.yml"
 
   # add line to files/services.txt
-  echo -e ${NEWLINEVAR}$PORT,$NAME | tee -a files/services.txt
+  echo -e ${NEWLINEVAR}$PORT,$NAME | tee -a "$DIR/../files/services.txt"
+
+  # add domain to files/domains.txt
+  echo ",$NAME.usingthe.computer" >> "$DIR/../files/domains.txt"
 
   # add domain to bootstrap.sh
   sed "3s/$/,$NAME.usingthe.computer/" "$DIR/../scripts/bootstrap.sh" > bootstrap.temp.sh && mv bootstrap.temp.sh "$DIR/../scripts/bootstrap.sh"

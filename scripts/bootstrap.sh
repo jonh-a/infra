@@ -1,8 +1,6 @@
 #!/bin/bash
 
-domains=agn.usingthe.computer,color-guesser.usingthe.computer
-
-install_deps() {
+install_deps() {,test.usingthe.computer,test.usingthe.computer
   apt update
   apt install curl git vim nginx -y
 }
@@ -36,16 +34,6 @@ update_zshrc() {
   source ~/.zshrc
 }
 
-generate_certificate() {
-  snap install --classic certbot
-  ln -s /snap/bin/certbot /usr/bin/certbot
-  sudo certbot --nginx -d $domains --non-interactive --agree-tos -m admin@usingthe.computer
-}
-
-generate_self_signed_certificate() {
-  openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/example.key -out /etc/nginx/ssl/example.crt
-}
-
 start_services() {
   git clone https://github.com/jonh-a/infra.git
 
@@ -59,7 +47,5 @@ install_zsh
 install_k8s
 install_postgres
 update_zshrc
-
 start_services
-generate_certificate
 enable_nginx

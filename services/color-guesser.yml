@@ -17,6 +17,7 @@ spec:
       containers:
       - name: color-guesser
         image: laundrybyte/color-guesser:latest
+        imagePullPolicy: Always
 
 ---
 

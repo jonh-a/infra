@@ -17,6 +17,7 @@ spec:
       containers:
       - name: agn
         image: laundrybyte/agn:latest
+        imagePullPolicy: Always
 
 ---
 
