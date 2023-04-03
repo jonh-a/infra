@@ -31,6 +31,6 @@ spec:
     app: home
   ports:
   - protocol: TCP
-    port: 30003
-    nodePort: 30003
+    port: 30000
+    nodePort: 30000
     targetPort: 80

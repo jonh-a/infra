@@ -6,6 +6,11 @@
   become_user: root
 
   tasks:
+  - name: pull latest changes
+    shell: git pull
+    args:
+      chdir: /home/ubuntu/infra
+
   - name: get services
     shell: ls /home/ubuntu/infra/services
     register: service_list
