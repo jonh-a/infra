@@ -17,12 +17,22 @@ For example, if a service "test" is exposed on port 5000 and will be exposed on 
 scripts/new_service.sh test 5000 30020
 ```
 
-This will write a new config file to `services/` and append the service and port to `files/services.txt`. This will also update the list of domains in `scripts/bootstrap.sh`. 
+This will write a new config file to `services/` and append the service and port to `files/services.txt`. This will also update the list of domains in `files/domains.txt`. 
 
 The script will exit if there is a port overlap.
 
 
-## Running the new service
+## Running the new service with Ansible (recommended)
+With the relevant files updated, commit your changes and push to main. Start the services and generate the certs using the two corresponding playbooks.
+
+```
+cd ansible
+ansible-playbook playbooks/start_services.yml -i inventory --private-key=path/to/key
+ansible-playbook playbooks/generate_certs.yml -i inventory --private-key=path/to/key
+```
+
+
+## Running the new service using bash scripts
 When SSH'd into the server, use `kc apply -f services/test.yml`, in the case of the service being named test. This will expose the service through the relevant port.
 
 Add a TLS certificate with Certbot like so:

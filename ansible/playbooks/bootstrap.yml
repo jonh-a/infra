@@ -1,0 +1,74 @@
+---
+- name: bootstrap web server
+  hosts: web
+  become: yes
+  remote_user: ubuntu
+  become_user: root
+  vars:
+    ansible_host_key_checking: false
+
+  tasks:
+  - name: install dependencies
+    apt:
+      update_cache: yes
+      name: "{{ item }}"
+      state: present
+    with_items:
+    - curl
+    - git
+    - vim
+    - nginx
+    - zsh
+    - postgresql
+    - postgresql-contrib
+
+  - name: install microk8s
+    snap:
+      name: microk8s
+      classic: yes
+      channel: "1.26"
+
+  - name: add ubuntu to microk8s group
+    user:
+      name: ubuntu
+      groups: microk8s
+      append: yes
+
+  - name: use zsh
+    shell: chsh -s /usr/bin/zsh ubuntu
+
+  - name: remove oh-my-zsh installation
+    file:
+      path: /home/ubuntu/.oh-my-zsh
+      state: absent
+
+  - name: install oh-my-zsh
+    become_user: ubuntu
+    shell: curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | zsh
+
+  - name: add aliases
+    lineinfile:
+      path: /home/ubuntu/.zshrc
+      line: "{{ item }}"
+      create: yes
+    with_items:
+    - "alias kc='microk8s kubectl'"
+
+  - name: modify postgres config
+    lineinfile:
+      path: /etc/postgresql/14/main/pg_hba.conf
+      line: "{{ item }}"
+    with_items:
+    - "host    all             all             0.0.0.0/0               md5"
+    - "local   all             postgres                                trust"
+
+  - name: restart postgres
+    service:
+      name: postgresql
+      state: restarted
+
+  - name: clone repository
+    git:
+      repo: https://github.com/jonh-a/infra.git
+      dest: /home/ubuntu/infra
+    become_user: ubuntu

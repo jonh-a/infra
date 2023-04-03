@@ -1,0 +1,15 @@
+---
+- name: start web services
+  hosts: web
+  become: yes
+  remote_user: ubuntu
+  become_user: root
+
+  tasks:
+  - name: get services
+    shell: ls /home/ubuntu/infra/services
+    register: service_list
+
+  - name: apply services
+    shell: microk8s kubectl apply -f /home/ubuntu/infra/services/{{ item }}
+    with_items: "{{ service_list.stdout_lines }}"

@@ -1,0 +1,43 @@
+---
+- name: generate certs
+  hosts: web
+  become: yes
+  remote_user: ubuntu
+  become_user: root
+
+  tasks:
+  - name: install certbot
+    snap:
+      classic: yes
+      name: certbot
+
+  - name: symlink for certbot
+    file:
+      src: /snap/bin/certbot
+      dest: /usr/bin/certbot
+      state: link
+      force: yes
+    
+  - name: remove self-signed cert directory
+    file:
+      path: /etc/nginx/ssl
+      state: absent
+
+  - name: make ssl directory
+    shell: mkdir /etc/nginx/ssl
+  
+  - name: generate intermediary self-signed cert
+    shell: openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/example.key -out /etc/nginx/ssl/example.crt -subj "/C=US/ST=Illinois/L=Chicago/O=NA/CN=www.usingthe.computer"
+
+  - name: copy nginx config
+    copy:
+      src: ../../files/www.usingthe.computer.conf
+      dest: /etc/nginx/conf.d/www.usingthe.computer.conf
+
+  - name: generate certs
+    shell: certbot --nginx -d $(cat /home/ubuntu/infra/files/domains.txt) --non-interactive --agree-tos -m admin@usingthe.computer
+
+  - name: restart nginx
+    service:
+      name: nginx
+      state: restarted

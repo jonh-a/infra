@@ -1,6 +1,6 @@
 #!/bin/bash
 
-install_deps() {,test.usingthe.computer,test.usingthe.computer
+install_deps() {
   apt update
   apt install curl git vim nginx -y
 }
@@ -9,10 +9,6 @@ install_k8s() {
   snap install microk8s --classic --channel=1.26
   usermod -a -G microk8s ubuntu
   chown -f -R ubuntu ~/.kube
-}
-
-enable_nginx() {
-  sudo systemctl enable --now nginx
 }
 
 install_zsh() {
@@ -30,8 +26,8 @@ install_postgres() {
 }
 
 update_zshrc() {
-  echo "alias kc=\"microk8s kubectl\"" >> ~/.zshrc
-  source ~/.zshrc
+  echo "alias kc=\"microk8s kubectl\"" | tee -a /home/ubuntu/.zshrc
+  source /home/ubuntu/.zshrc
 }
 
 start_services() {
@@ -40,6 +36,10 @@ start_services() {
   for f in $(ls infra/services); do
     kc apply -f infra/services/$f
   done
+}
+
+enable_nginx() {
+  systemctl enable --now nginx
 }
 
 install_deps
