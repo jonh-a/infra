@@ -1,1 +1,1 @@
-www.usingthe.computer,home.usingthe.computer,agn.usingthe.computer,color-guesser.usingthe.computer
+usingthe.computer,home.usingthe.computer,agn.usingthe.computer,color-guesser.usingthe.computer

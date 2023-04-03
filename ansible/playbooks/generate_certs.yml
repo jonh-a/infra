@@ -35,7 +35,7 @@
       dest: /etc/nginx/conf.d/www.usingthe.computer.conf
 
   - name: generate certs
-    shell: certbot --nginx -d $(cat /home/ubuntu/infra/files/domains.txt) --non-interactive --agree-tos -m admin@usingthe.computer
+    shell: certbot --nginx -d $(cat /home/ubuntu/infra/files/domains.txt) --non-interactive --agree-tos -m admin@usingthe.computer --expand
 
   - name: restart nginx
     service:
