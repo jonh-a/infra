@@ -1,0 +1,69 @@
+---
+- name: harden server
+  hosts: web
+  become: yes
+  remote_user: ubuntu
+  become_user: root
+
+  tasks:
+  - name: disable root login
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      regexp: '^\s*(#?\s*PermitRootLogin)\s+(\S+.*)?$'
+      line: 'PermitRootLogin no'
+    notify: restart sshd
+
+  - name: set max auth tries
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      regexp: '^\s*(#?\s*MaxAuthTries)\s+(\S+.*)?$'
+      line: 'MaxAuthTries 3'
+    notify: restart sshd
+
+  - name: disable password authentication
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      regexp: '^\s*(#?\s*PasswordAuthentication)\s+(\S+.*)?$'
+      line: 'PasswordAuthentication no'
+    notify: restart sshd
+
+  - name: disable x11 fowarding
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      regexp: '^\s*(#?\s*X11Forwarding)\s+(\S+.*)?$'
+      line: 'X11Forwarding no'
+    notify: restart sshd
+
+  - name: disable user environment
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      regexp: '^\s*(#?\s*PermitUserEnvironment)\s+(\S+.*)?$'
+      line: 'PermitUserEnvironment no'
+    notify: restart sshd
+
+  - name: disable agent forwarding
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      regexp: '^\s*(#?\s*AllowAgentForwarding)\s+(\S+.*)?$'
+      line: 'AllowAgentForwarding no'
+    notify: restart sshd
+
+  - name: disable tcp forwarding
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      regexp: '^\s*(#?\s*AllowTcpForwarding)\s+(\S+.*)?$'
+      line: 'AllowTcpForwarding no'
+    notify: restart sshd
+
+  - name: disable tunnel
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      regexp: '^\s*(#?\s*PermitTunnel)\s+(\S+.*)?$'
+      line: 'PermitTunnel no'
+    notify: restart sshd
+
+  handlers:
+  - name: restart sshd
+    service:
+      name: sshd
+      state: restarted

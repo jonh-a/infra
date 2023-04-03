@@ -72,3 +72,4 @@
       repo: https://github.com/jonh-a/infra.git
       dest: /home/ubuntu/infra
     become_user: ubuntu
+
