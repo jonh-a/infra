@@ -38,7 +38,7 @@ $(<$DIR/../files/service.template.yml)
   echo ",$NAME.usingthe.computer" >> "$DIR/../files/domains.txt"
 
   # add domain to bootstrap.sh
-  sed "3s/$/,$NAME.usingthe.computer/" "$DIR/../scripts/bootstrap.sh" > bootstrap.temp.sh && mv bootstrap.temp.sh "$DIR/../scripts/bootstrap.sh"
+  # sed "3s/$/,$NAME.usingthe.computer/" "$DIR/../scripts/bootstrap.sh" > bootstrap.temp.sh && mv bootstrap.temp.sh "$DIR/../scripts/bootstrap.sh"
 }
 
 check_for_overlapping_ports
