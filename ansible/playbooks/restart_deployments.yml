@@ -1,0 +1,20 @@
+---
+- name: start web services
+  hosts: web
+  become: yes
+  remote_user: ubuntu
+  become_user: root
+
+  tasks:
+  - name: pull latest changes
+    shell: git pull
+    args:
+      chdir: /home/ubuntu/infra
+
+  - name: get services
+    shell: ls /home/ubuntu/infra/services | sed 's/\.yml//g'
+    register: service_list
+
+  - name: apply services
+    shell: microk8s kubectl rollout restart deployment {{ item }}
+    with_items: "{{ service_list.stdout_lines }}"
