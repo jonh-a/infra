@@ -73,3 +73,5 @@
       dest: /home/ubuntu/infra
     become_user: ubuntu
 
+  - name: enable metrics-server
+    shell: microk8s enable metrics-server

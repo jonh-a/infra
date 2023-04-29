@@ -1,0 +1,22 @@
+---
+- name: fetch metrics
+  hosts: web
+  become: yes
+  remote_user: ubuntu
+  become_user: root
+
+  tasks:
+  - name: get pods
+    shell: kc get pods --no-headers | cut -d " " -f 1
+    register: pods_list
+
+  - name: pull resources
+    shell: kc top pod {{ item }}
+    loop: "{{ pods_list.stdout_lines }}"
+    register: resource_usage
+    changed_when: false
+  
+  - name: print resource usage
+    debug:
+      msg: "{{ item.stdout }}"
+    loop: "{{ resource_usage.results }}"

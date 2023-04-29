@@ -18,6 +18,14 @@ spec:
       - name: coordinates-api
         image: laundrybyte/coordinates-api:latest
         imagePullPolicy: Always
+        volumeMounts:
+        - name: env-volume
+          mountPath: /app/.env
+          readOnly: true
+      volumes:
+      - name: env-volume
+        configMap:
+          name: coordinates-api
 
 ---
 
