@@ -19,7 +19,7 @@ spec:
         image: laundrybyte/coordinates-api:latest
         imagePullPolicy: Always
         envFrom:
-        - configMapRef:
+        - secretRef:
             name: coordinates-api
 ---
 
