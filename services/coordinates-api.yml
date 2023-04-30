@@ -18,15 +18,9 @@ spec:
       - name: coordinates-api
         image: laundrybyte/coordinates-api:latest
         imagePullPolicy: Always
-        volumeMounts:
-        - name: env-volume
-          mountPath: /app/.env
-          readOnly: true
-      volumes:
-      - name: env-volume
-        configMap:
-          name: coordinates-api
-
+        envFrom:
+        - configMapRef:
+            name: coordinates-api
 ---
 
 apiVersion: v1
@@ -42,4 +36,3 @@ spec:
     port: 30005
     nodePort: 30005
     targetPort: 3000
-  
