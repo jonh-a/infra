@@ -31,14 +31,16 @@ generate_service_file() {
 $(<$DIR/../files/service.template.yml)
   " > "$DIR/../services/$NAME.yml"
 
+  # generate nginx rules
+  eval "cat <<EOF
+$(<$DIR/../files/nginx_service.template.conf)
+  " >> "$DIR/../files/www.usingthe.computer.conf"
+
   # add line to files/services.txt
   echo -e ${NEWLINEVAR}$PORT,$NAME | tee -a "$DIR/../files/services.txt"
 
   # add domain to files/domains.txt
-  echo ",$NAME.usingthe.computer" >> "$DIR/../files/domains.txt"
-
-  # add domain to bootstrap.sh
-  # sed "3s/$/,$NAME.usingthe.computer/" "$DIR/../scripts/bootstrap.sh" > bootstrap.temp.sh && mv bootstrap.temp.sh "$DIR/../scripts/bootstrap.sh"
+  sed -i '' "1s/$/,$NAME.usingthe.computer/" "$DIR/../files/domains.txt"
 }
 
 check_for_overlapping_ports
