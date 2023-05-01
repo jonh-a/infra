@@ -23,7 +23,14 @@ The script will exit if there is a port overlap.
 
 
 ## Running the new service with Ansible (recommended)
-With the relevant files updated, commit your changes and push to main. Start the services and generate the certs using the two corresponding playbooks.
+With the relevant files updated, commit your changes and push to main. 
+
+If your service requires secrets, you should have your secrets defined as a .env file in `secrets/`. This should match the name of the service (for instance, `services/my-service.yml` and `secrets/my-service.env`). If secrets are used, run the following playbook:
+```
+ansible-playbook playbooks/copy_secrets.yml -i inventory --private-key=path/to/key
+```
+
+Start the services and generate the certs using the two corresponding playbooks.
 
 ```
 cd ansible
@@ -32,7 +39,7 @@ ansible-playbook playbooks/generate_certs.yml -i inventory --private-key=path/to
 ```
 
 
-## Running the new service using bash scripts
+## Running the new service using bash (not recommended)
 When SSH'd into the server, use `kc apply -f services/test.yml`, in the case of the service being named test. This will expose the service through the relevant port.
 
 Add a TLS certificate with Certbot like so:
