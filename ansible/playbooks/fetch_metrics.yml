@@ -6,16 +6,23 @@
 
   tasks:
   - name: get pods
-    shell: kc get pods --no-headers | cut -d " " -f 1
+    shell: microk8s kubectl get pods --no-headers | cut -d " " -f 1
     register: pods_list
 
+  - name: create log file
+    copy:
+      dest: /tmp/resource_usage
+      content: ''
+
   - name: pull resources
-    shell: kc top pod {{ item }}
+    shell: 'microk8s kubectl top pod {{ item }} --no-headers | sed -E "s/(\S+)\s+(\S+)\s+(\S+)/{\"pod\": \"\1\", \"cpu\": \"\2\", \"memory\": \"\3\"}/" >> /tmp/resource_usage'
     loop: "{{ pods_list.stdout_lines }}"
-    register: resource_usage
     changed_when: false
-  
+
+  - name: cat resource_usage
+    shell: cat /tmp/resource_usage
+    register: resource_usage
+
   - name: print resource usage
     debug:
-      msg: "{{ item.stdout }}"
-    loop: "{{ resource_usage.results }}"
+      msg: "{{ resource_usage.stdout }}"

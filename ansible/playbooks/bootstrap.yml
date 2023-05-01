@@ -15,6 +15,7 @@
       state: present
     with_items:
     - curl
+    - jq
     - git
     - vim
     - nginx
