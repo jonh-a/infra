@@ -13,7 +13,7 @@ The instance security group should expose 22, 443, 80, and 30000-32000
 Add an A record for your domain and each relevant subdomain. Without this, we can't generate TLS certificates.
 
 ### Secrets
-Add your .env file(s) for each service to the `services/` directory (if applicable). The name of the file should match the name of the service (for instance, `services/my-service.yml` and `secrets/my-service.env`).
+Add your .env file(s) for each service to the `secrets/` directory (if applicable). The name of the file should match the name of the service (for instance, `services/my-service.yml` and `secrets/my-service.env`).
 
 
 ## Bootstrap server using Ansible (recommended)
