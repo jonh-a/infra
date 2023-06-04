@@ -4,4 +4,3 @@
 30003,agn
 30004,geojson-api
 30005,coordinates-api
-30006,coordinates-api-ex
