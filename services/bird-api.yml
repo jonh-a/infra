@@ -18,6 +18,9 @@ spec:
       - name: bird-api
         image: laundrybyte/bird-api:latest
         imagePullPolicy: Always
+        envFrom:
+        - secretRef:
+            name: bird-api
 
 ---
 
