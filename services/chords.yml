@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chords
+  labels:
+    app: chords
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chords
+  template:
+    metadata:
+      labels:
+        app: chords
+    spec:
+      containers:
+      - name: chords
+        image: laundrybyte/chords:latest
+        imagePullPolicy: Always
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: chords-service
+spec:
+  type: NodePort
+  selector:
+    app: chords
+  ports:
+  - protocol: TCP
+    port: 30007
+    nodePort: 30007
+    targetPort: 80
+  

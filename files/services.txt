@@ -5,3 +5,4 @@
 30004,geojson-api
 30005,coordinates-api
 30006,coordinates
+30007,chords
