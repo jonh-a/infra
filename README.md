@@ -7,3 +7,4 @@ Requires nothing more than an EC2 instance (t2.small running Ubuntu seems to be 
 ## Instructions
 - [Spin up an EC2 instance](https://github.com/jonh-a/infra/blob/main/readmes/bootstrap_new_server.md)
 - [Add a new service](https://github.com/jonh-a/infra/blob/main/readmes/new_service.md)
+- [Apply changes to a service](https://github.com/jonh-a/infra/blob/main/readmes/apply_changes.md)

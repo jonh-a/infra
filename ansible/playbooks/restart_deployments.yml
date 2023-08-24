@@ -10,10 +10,16 @@
     args:
       chdir: /home/ubuntu/infra
 
+  - name: restart specific service
+    shell: microk8s kubectl rollout restart deployment {{ service }}
+    when: service is defined
+
   - name: get services
     shell: ls /home/ubuntu/infra/services | sed 's/\.yml//g'
     register: service_list
+    when: service is not defined
 
   - name: apply services
     shell: microk8s kubectl rollout restart deployment {{ item }}
     with_items: "{{ service_list.stdout_lines }}"
+    when: service is not defined
