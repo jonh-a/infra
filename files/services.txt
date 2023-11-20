@@ -6,6 +6,5 @@
 30005,coordinates-api
 30006,coordinates
 30007,chords
-30008,pet-fetch
 30009,demoly-api
 30010,demoly
