@@ -18,6 +18,9 @@ spec:
       - name: demoly-api
         image: laundrybyte/demoly-api:latest
         imagePullPolicy: Always
+        envFrom:
+        - secretRef:
+            name: demoly-api
 
 ---
 
