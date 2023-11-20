@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demoly-api
+  labels:
+    app: demoly-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demoly-api
+  template:
+    metadata:
+      labels:
+        app: demoly-api
+    spec:
+      containers:
+      - name: demoly-api
+        image: laundrybyte/demoly-api:latest
+        imagePullPolicy: Always
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: demoly-api-service
+spec:
+  type: NodePort
+  selector:
+    app: demoly-api
+  ports:
+  - protocol: TCP
+    port: 30009
+    nodePort: 30009
+    targetPort: 3000
+  
