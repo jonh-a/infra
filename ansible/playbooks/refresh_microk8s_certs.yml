@@ -1,0 +1,24 @@
+---
+- name: refresh microk8s certs
+  hosts: web
+  become: yes
+  remote_user: ubuntu
+
+  tasks:
+  - name: get microk8s cert status
+    shell: microk8s refresh-certs --check
+    register: cert_status
+
+  - name: print cert status
+    debug:
+      msg: "{{ cert_status.stdout }}"
+
+  - name: confirm refresh
+    pause:
+      prompt: Refresh certs? [Crtl + C for cancel / enter for yes]
+
+  - name: refresh server certificate
+    shell: microk8s refresh-certs --cert server.crt
+
+  - name: refresh front proxy client certificate
+    shell: microk8s refresh-certs --cert front-proxy-client.crt
