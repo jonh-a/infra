@@ -9,3 +9,4 @@
 30009,demoly-api
 30010,demoly
 30011,fake-api
+30012,capitals
