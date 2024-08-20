@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: misc
+  labels:
+    app: misc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: misc
+  template:
+    metadata:
+      labels:
+        app: misc
+    spec:
+      containers:
+      - name: misc
+        image: laundrybyte/misc:latest
+        imagePullPolicy: Always
+        envFrom:
+        - secretRef:
+            name: misc
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: misc-service
+spec:
+  type: NodePort
+  selector:
+    app: misc
+  ports:
+  - protocol: TCP
+    port: 30013
+    nodePort: 30013
+    targetPort: 3000
+  
