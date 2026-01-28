@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: graffiti
+  labels:
+    app: graffiti
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: graffiti
+  template:
+    metadata:
+      labels:
+        app: graffiti
+    spec:
+      containers:
+        - name: graffiti
+          image: laundrybyte/graffiti:latest
+          imagePullPolicy: Always
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: graffiti-service
+spec:
+  type: NodePort
+  selector:
+    app: graffiti
+  ports:
+    - protocol: TCP
+      port: 30014
+      nodePort: 30014
+      targetPort: 80
